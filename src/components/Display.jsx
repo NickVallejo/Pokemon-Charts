@@ -3,7 +3,7 @@ import PkmnBox from './PkmnBox'
 import AppContext from '../helpers/AppCtx'
 import ChartForm from './ChartForm'
 
-function Display() {
+function Display(props) {
     const appCtx = useContext(AppContext)
     const [pkmnSwitch, setPkmnSwitch] = useState(false)
     const [from, setFrom] = useState('')
@@ -43,6 +43,7 @@ function Display() {
         <ChartForm setSaveHandler={saveChart} chartName={appCtx.myChart.name}/>
         <div className='box-wrap'>
             {appCtx.myChart.chart.map((el, index) => (<PkmnBox
+            results={props.results}
             from={from}
             pkmnSwitcherInit={pkmnSwitcherInit} 
             pkmnSwitcherToggle={pkmnSwitcherToggle} 

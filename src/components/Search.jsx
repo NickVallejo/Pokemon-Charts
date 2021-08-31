@@ -1,5 +1,4 @@
 import React, {useState, useRef, useEffect, useContext} from 'react'
-import AppContext from '../helpers/AppCtx'
 import PkmnRes from './PkmnRes'
 import axios from 'axios'
 
@@ -7,13 +6,11 @@ function Search(props) {
     const [currentSrc, setCurrentSrc] = useState()
     const srcInput = useRef()
 
-    const appCtx = useContext(AppContext)
-
     useEffect(async () => {
         const req = await axios.get(`https://pokeapi.co/api/v2/pokemon/${currentSrc}`)
 
         const pkmnRes = req.data
-        appCtx.resultsSetContext(pkmnRes)
+        props.resultsSetContext(pkmnRes)
 
     }, [currentSrc])
 
@@ -23,7 +20,7 @@ function Search(props) {
         setCurrentSrc(src)
     }
 
-    console.log(appCtx.results, 'RESULTS')
+    console.log(props.results, 'RESULTS')
     return (
         <div className="search-wrap">
             <form action="">
@@ -32,8 +29,8 @@ function Search(props) {
             </form>
 
             <div className="search-display">
-                {!appCtx.results && <p>No results found</p>}
-                {appCtx.results && <PkmnRes key={appCtx.results.name} results={appCtx.results} />}
+                {!props.results && <p>No results found</p>}
+                {props.results && <PkmnRes key={props.results.name} results={props.results} />}
             </div>
         </div>
     )

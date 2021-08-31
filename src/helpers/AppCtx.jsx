@@ -7,7 +7,6 @@ export const AppContextProvider = props => {
     const [pkmnSelected, setPkmnSelected] = useState(false)    
     const [chartSize, setChartSize] = useState(10)
     const [justSaved, setJustSaved] = useState(false)
-    const [results, setResults] = useState()
     const [myChart, setMyChart] = useState(new Chart(false, [null,null,null,null,null,null,null,null,null,null]))
     const [myChartList, setMyChartList] = useState([])
 
@@ -25,13 +24,13 @@ export const AppContextProvider = props => {
         if(myChartList && myChartList.length > 0 && !justSaved){
             setMyChart(myChartList[0])
             console.log('not just saved')
-            return
         }
         if(myChartList && myChartList.length > 0 && justSaved){
             console.log('just saved')
             setMyChart(myChartList[myChartList.length-1])
-            return
         }
+
+        return
     }, [myChartList])
 
     //pushes newly saved cahrt to chart list
@@ -42,7 +41,7 @@ export const AppContextProvider = props => {
             const nameNotTaken = mutList.every(list => list.name !== name)
             if(nameNotTaken){
                 mutList.push(new Chart(name, myChart.chart))
-                setJustSaved(true)
+                !justSaved && setJustSaved(true)
                 return mutList
             } else{
                 return prevList
@@ -59,9 +58,9 @@ export const AppContextProvider = props => {
         //Shifting algorithm
         setMyChart(prevChart => {
             const mutChart = {...prevChart}
-            let popBool = false
-            let toBeMoved = []
-            console.log(`LOOKING AT YOU ${JSON.stringify(mutChart.chart[0])}`)
+            //let popBool = false
+            //let toBeMoved = []
+            //console.log(`LOOKING AT YOU ${JSON.stringify(mutChart.chart[0])}`)
             // if(mutChart.chart[index] !== null){
             //     for(let i = index; mutChart.chart[i] !== null && i < 10; i++){
             //             toBeMoved.push({el: mutChart.chart[i], index: i})
@@ -74,7 +73,7 @@ export const AppContextProvider = props => {
             //     })
             // }
             mutChart.chart[index] = pkmn
-            popBool && mutChart.chart.pop()
+            //popBool && mutChart.chart.pop()
             return mutChart
         })
     }
@@ -101,28 +100,6 @@ export const AppContextProvider = props => {
         setPkmnSelected(false)
     }
 
-    const resultsSetContext = (pkmnRes) => {
-        let statsArray = []
-        let typeArray = []
-
-        
-        pkmnRes.stats.forEach(stat => {
-            statsArray.push({statName: stat.stat.name, statBase: stat.base_stat})
-        })
-
-        pkmnRes.types.forEach(type => {
-            typeArray.push(type.type.name)
-        })
-    
-        setResults({
-            name: pkmnRes.name,
-            stats: statsArray,
-            sprites: {normal: pkmnRes.sprites.front_default, shiny: pkmnRes.sprites.front_shiny},
-            id: pkmnRes.id,
-            types: typeArray
-        })
-    }
-
     const pkmnDisplaySwitch = (from, to) => {
         console.log('ID of SELECTED POKEMON DETECTED', from, to)
         setMyChart(prevChart => {
@@ -147,10 +124,8 @@ export const AppContextProvider = props => {
 
     return <AppContext.Provider value = {{
         pkmnSelected,
-        results,
         myChart,
         myChartList,
-        resultsSetContext,
         pkmnClicked,
         selectOff,
         addToChart,

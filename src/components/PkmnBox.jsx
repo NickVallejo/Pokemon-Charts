@@ -2,31 +2,31 @@ import React, {useState, useContext, useEffect} from 'react'
 import AppContext from '../helpers/AppCtx'
 
 function PkmnBox(props) {
-    const {myPkmn} = props
+    const {myPkmn, id, results} = props
     const appCtx = useContext(AppContext)
 
     const pkmnSetHandler = () => {
-            console.log('ID THAT WAS PASSEd', props.id)
-            appCtx.addToChart(props.id, appCtx.results)
+            console.log('ID THAT WAS PASSEd', id)
+            appCtx.addToChart(id, results)
             appCtx.pkmnClicked()
     }
 
     const pkmnSwitch = () => {
         if(props.pkmnSwitch){
-            props.pkmnSwitcherInit(props.id)
+            props.pkmnSwitcherInit(id)
         } else{
-            props.pkmnSwitcherToggle(props.id)
+            props.pkmnSwitcherToggle(id)
         }
     }
 
     const pkmnDel = () => {
-        appCtx.removePkmn(props.id)
+        appCtx.removePkmn(id)
     }
 
     return (
-        <div className={`pkmn-box ${props.from === props.id && "res-clicked"}`} id={`pkmnBox-${props.id}`} onClick={appCtx.pkmnSelected ? pkmnSetHandler : pkmnSwitch}>
+        <div className={`pkmn-box ${props.from === id && "res-clicked"}`} id={`pkmnBox-${id}`} onClick={appCtx.pkmnSelected ? pkmnSetHandler : pkmnSwitch}>
             <div className="title-bar">
-                <span className="rank">{parseInt(props.id)+1}</span>
+                <span className="rank">{parseInt(id)+1}</span>
                 {myPkmn && <span onClick={pkmnDel}>X</span>}
             </div>
             {myPkmn &&
