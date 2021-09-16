@@ -9,11 +9,12 @@ import PkmnRes from './components/PkmnRes'
 import './App.css'
 
 function App() {
+    const [filter, setFilter] = useState({regions: [], types: []})
     const [results, setResults] = useState([])
     const [didLoad, setDidLoad] = useState(false)
 
     const resultData = useCallback(async() => {
-            const req = await axios.get('https://pokeapi.co/api/v2/pokemon/?limit=61')
+            const req = await axios.get('https://pokeapi.co/api/v2/pokemon/?limit=151')
             const pkmnRes = req.data.results
         
             setResults(pkmnRes)
@@ -27,7 +28,7 @@ function App() {
     return (
         <AppContextProvider>
             {!didLoad ? 
-            <p>Loading...</p> : 
+            '' : 
             <AppWrap>
                 <div className="res-and-list">
                     <ChartList />
