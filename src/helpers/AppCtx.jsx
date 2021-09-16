@@ -9,6 +9,11 @@ export const AppContextProvider = props => {
     const [justSaved, setJustSaved] = useState(false)
     const [myChart, setMyChart] = useState(new Chart(false, [null,null,null,null,null,null,null,null,null,null]))
     const [myChartList, setMyChartList] = useState([])
+    const [selectedPkmn, setSelectedPkmn] = useState(undefined)
+
+    useEffect(() => {
+        console.log('POKEMON SELECTED?', pkmnSelected)
+    }, [pkmnSelected])
 
     useEffect(() => {
         //if local storage, set chart list to be what's inside local storage
@@ -54,10 +59,11 @@ export const AppContextProvider = props => {
         console.log('retreiving my chart list', myChartList)
     }, [myChart, myChartList])
 
-    const addToChart = (index, pkmn) => {
+    const addToChart = (index) => {
         //Shifting algorithm
         setMyChart(prevChart => {
             const mutChart = {...prevChart}
+            //THIS IS A BUGGED OUT INSERT ALGORITHM THAT IS COMMENTED OUT FOR NOW
             //let popBool = false
             //let toBeMoved = []
             //console.log(`LOOKING AT YOU ${JSON.stringify(mutChart.chart[0])}`)
@@ -72,10 +78,12 @@ export const AppContextProvider = props => {
             //         mutChart.chart[move.index+1] = move.el
             //     })
             // }
-            mutChart.chart[index] = pkmn
+            mutChart.chart[index] = selectedPkmn
             //popBool && mutChart.chart.pop()
             return mutChart
         })
+        setPkmnSelected(false)
+        setSelectedPkmn(undefined)
     }
 
     const removePkmn = (index) => {
@@ -87,17 +95,21 @@ export const AppContextProvider = props => {
         })
     }
 
-    const pkmnClicked = () => {
-        pkmnSelected ? setPkmnSelected(false) : setPkmnSelected(true)
+    const pkmnClicked = (pkmnMeta) => {
+        console.log('clicked pokemon clicked', pkmnMeta)
+        setSelectedPkmn(pkmnMeta)
+        setPkmnSelected(true)
     }
 
     const selectOff = (e) => {
         if(e.target.closest('.search-wrap') !== null 
-        || e.target.closest('.pkmn-box')){
+        || e.target.closest('.pkmn-box') && !pkmnSelected
+        || e.target.closest('.pkmn-display') && !pkmnSelected){
             return
         }
 
         setPkmnSelected(false)
+        setSelectedPkmn(undefined)
     }
 
     const pkmnDisplaySwitch = (from, to) => {

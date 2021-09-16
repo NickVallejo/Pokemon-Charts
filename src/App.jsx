@@ -1,43 +1,45 @@
-import React, {useState, useContext} from 'react'
+import React, { useState, useContext, useEffect, useMemo, useCallback} from 'react'
 import Search from './components/Search'
 import Display from './components/Display'
 import { AppContextProvider } from './helpers/AppCtx'
 import AppWrap from './components/AppWrap'
 import ChartList from './components/ChartList'
+import axios from 'axios'
+import PkmnRes from './components/PkmnRes'
 import './App.css'
 
 function App() {
+    const [results, setResults] = useState([])
+    const [didLoad, setDidLoad] = useState(false)
 
-    const [results, setResults] = useState()
+    const resultData = useCallback(async() => {
+            const req = await axios.get('https://pokeapi.co/api/v2/pokemon/?limit=61')
+            const pkmnRes = req.data.results
+        
+            setResults(pkmnRes)
+            setDidLoad(true)
+    }, [])
 
-    const resultsSetContext = (pkmnRes) => {
-        let statsArray = []
-        let typeArray = []
-
-        pkmnRes.stats.forEach(stat => {
-            statsArray.push({statName: stat.stat.name, statBase: stat.base_stat})
-        })
-
-        pkmnRes.types.forEach(type => {
-            typeArray.push(type.type.name)
-        })
-    
-        setResults({
-            name: pkmnRes.name,
-            stats: statsArray,
-            sprites: {normal: pkmnRes.sprites.front_default, shiny: pkmnRes.sprites.front_shiny},
-            id: pkmnRes.id,
-            types: typeArray
-        })
-    }
+    useEffect(() => {
+        resultData()
+    }, [])
 
     return (
         <AppContextProvider>
+            {!didLoad ? 
+            <p>Loading...</p> : 
             <AppWrap>
-                <ChartList />
-                <Search resultsSetContext={resultsSetContext} results={results}/>
-                <Display results={results}/>
+                <div className="res-and-list">
+                    <ChartList />
+                    <div className="search-display">
+                        {results.length > 0 && results.map(result => (
+                            <PkmnRes key={result.name} url={result.url} />
+                        ))}
+                    </div>
+                </div>
+                <Display results={results} />
             </AppWrap>
+            }
         </AppContextProvider>
     )
 }

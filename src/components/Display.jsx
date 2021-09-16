@@ -8,7 +8,8 @@ function Display(props) {
     const [pkmnSwitch, setPkmnSwitch] = useState(false)
     const [from, setFrom] = useState('')
     const [to, setTo] = useState('')
-    console.log(appCtx.myChart, JSON.parse(localStorage.getItem('myChartList')))
+
+    console.log('MY CHART BEFORE MAP', appCtx.myChart)
 
     useEffect(() => {
         if(!isNaN(from) && !isNaN(to)){
@@ -33,7 +34,6 @@ function Display(props) {
     }
 
     const pkmnSwitcherToggle = (id) => {
-        console.log('pokemon switcher toggled on', id)
         setPkmnSwitch(true)
         setFrom(id)
     }
