@@ -1,4 +1,5 @@
 export const pokeRegions = {
+    all: {offset: 0, limit: 1100},
     kanto: {offset: 0, limit: 151},
     Johto: {offset: 151, limit: 100},
     Hoenn: {offset: 251, limit: 135},
@@ -8,4 +9,4 @@ export const pokeRegions = {
     Alola: {offset: 721, limit: 88},
     Galar: {offset: 809, limit: 91},
 }
-export const pokeTypes = ['Normal', 'Fire', 'Water', 'Grass', 'Flying', 'Fighting', 'Poison', 'Electric', 'Ground', 'Rock', 'Psychic', 'Ice', 'Bug', 'Ghost', 'Steel', 'Dragon', 'Dark', 'Fairy']
+export const pokeTypes = ['all', 'normal', 'fire', 'water', 'grass', 'flying', 'fighting', 'poison', 'electric', 'ground', 'rock', 'psychic', 'ice', 'bug', 'ghost', 'steel', 'dragon', 'dark', 'fairy']

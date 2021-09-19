@@ -11,10 +11,6 @@ function FilterSidebar({filter, filterChange}) {
         filterChange(mockFilter)
     }  
 
-    useEffect(() => {
-        console.log(mockFilter)
-    }, [mockFilter])
-
     const changeFilter = (checked, name, filterType) => {
         if(checked == false){
             setMockFilter(prevFilter => {
