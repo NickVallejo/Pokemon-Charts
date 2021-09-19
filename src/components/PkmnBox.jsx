@@ -7,7 +7,7 @@ function PkmnBox(props) {
     const {myPkmn, id} = props
     const appCtx = useContext(AppContext)
 
-    console.log(myPkmn, 'POKEMON BOX META')
+    //console.log(myPkmn, 'POKEMON BOX META')
 
     const pkmnSetHandler = () => {
             appCtx.addToChart(id)

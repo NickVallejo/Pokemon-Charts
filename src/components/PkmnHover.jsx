@@ -1,9 +1,9 @@
-import React from 'react'
+import React, {useState} from 'react'
 
 function PkmnHover(props) {
 
     const pkmn = props.pkmnStats
-    console.log('HERE IS WHAT PKMN STATS LOOKS LIKE', pkmn)
+
     return (
         <div class="poke-hover pkmn-meta">
            <ul class="stat-ul">

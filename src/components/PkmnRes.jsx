@@ -5,43 +5,13 @@ import axios from 'axios'
 
 function PkmnRes(props) {
     const appCtx = useContext(AppContext)
-    const [pkmnMeta, setPkmnMeta] = useState()
+    const [pkmnMeta, setPkmnMeta] = useState(props.meta)
     const [imClicked, setImClicked] = useState(false)
-    console.log(pkmnMeta, 'PKMNRES META')
+    // console.log(pkmnMeta, 'PKMNRES META')
 
     useEffect(() => { 
         (!appCtx.pkmnSelected && imClicked) && setImClicked(false)
     }, [appCtx.pkmnSelected])
-
-    const getPoke = useCallback(async() => {
-        const pkmnReturn = await axios.get(props.url)
-        const pkmn = pkmnReturn.data
-  
-        let statsArray = []
-        let typeArray = []
-       
-        pkmn.stats.forEach(stat => {
-            statsArray.push({ statName: stat.stat.name, statBase: stat.base_stat })
-        })
-       
-        pkmn.types.forEach(type => {
-            typeArray.push(type.type.name)
-        })
-       
-        const pkmnToAdd = {
-            name: pkmn.name,
-            stats: statsArray,
-            sprites: { normal: pkmn.sprites.front_default, shiny: pkmn.sprites.front_shiny },
-            id: pkmn.id,
-            types: typeArray
-        }
-  
-        setPkmnMeta(pkmnToAdd)
-    })
-
-    useEffect(async() => {
-      getPoke()
-    }, [])
 
     const pkmnClickHandler = () => {
         setImClicked(true)
