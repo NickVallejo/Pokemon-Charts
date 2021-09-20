@@ -15,7 +15,12 @@ function FilterSidebar({filter, filterChange}) {
         if(checked == false){
             setMockFilter(prevFilter => {
                 const newFilter = {...prevFilter}
-                console.log(newFilter, filterType)
+                if(name == 'all'){
+                    newFilter[filterType] = [name]
+                    return newFilter
+                }
+
+                newFilter[filterType].splice(newFilter[filterType].indexOf('all'), 1)
                 newFilter[filterType].push(name)
                 return newFilter
             })

@@ -14,7 +14,7 @@ import pokemon from "./assets/pokemon.json";
 
 function App() {
     let allPokemon;
-    const [filter, setFilter] = useState({regions: ['kanto'], types: []})
+    const [filter, setFilter] = useState({regions: ['all'], types: ['all']})
     const [results, setResults] = useState([])
     const [didLoad, setDidLoad] = useState(false)
 
@@ -27,7 +27,7 @@ function App() {
                 const filtRegion = pokeRegions[region]
                 console.log('FILTER REGION', filtRegion)
                 for(let i = filtRegion.offset; i < filtRegion.offset + filtRegion.limit; i++){
-                    if(filter.types.length){
+                    if(filter.types.length && !filter.types.includes('all')){
                         const found = pokemon[i].types.some(type => filter.types.includes(type)) 
                         found && pkmnRes.push(pokemon[i])
                         continue
@@ -48,7 +48,6 @@ function App() {
     }, [filter])
 
     const filterChange = (newFilter) => {
-        console.log('we got here', newFilter)
         setFilter(newFilter)
     }
 
@@ -56,7 +55,7 @@ function App() {
         <AppContextProvider>
             <FilterSidebar filter={filter} filterChange={filterChange}/>
             {!didLoad ? 
-            '' : 
+            'Loading...' : 
             <AppWrap>
                 <div className="res-and-list">
                     <ChartList />
