@@ -1,7 +1,6 @@
-import React, { useCallback, useContext, useEffect, useState } from 'react'
+import React, {useContext, useEffect, useState, useCallback} from 'react'
 import AppContext from '../helpers/AppCtx'
 import PkmnHover from './PkmnHover'
-import axios from 'axios'
 
 function PkmnRes(props) {
     const appCtx = useContext(AppContext)
@@ -11,19 +10,20 @@ function PkmnRes(props) {
 
     useEffect(() => { 
         (!appCtx.pkmnSelected && imClicked) && setImClicked(false)
+        console.log('RES MOUNT')
     }, [appCtx.pkmnSelected])
 
-    const pkmnClickHandler = () => {
+    const pkmnClickHandler = useCallback(() => {
         setImClicked(true)
         appCtx.pkmnClicked(pkmnMeta)
-    }
+    })
 
     if(pkmnMeta){
         return (
             <div className={`pkmn-display${imClicked ? ' res-clicked' : ''}`} onClick={pkmnClickHandler}>
                 <img src={`${pkmnMeta.sprites.normal}`} />
                 <h4>{pkmnMeta.name} - {pkmnMeta.id}</h4>
-                {pkmnMeta && <PkmnHover pkmnStats={pkmnMeta}/>}
+                {/* {pkmnMeta && <PkmnHover pkmnStats={pkmnMeta}/>} */}
                 {/* <div className="pkmn-meta">
                     <h6>Stats</h6>
                     <ul>
@@ -43,4 +43,4 @@ function PkmnRes(props) {
     }
 }
 
-export default PkmnRes
+export default React.memo(PkmnRes)

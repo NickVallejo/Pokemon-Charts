@@ -8,9 +8,10 @@ import { pokeRegions} from './helpers/pokeRegions'
 import './App.css'
 import FilterSidebar from './components/FilterSidebar'
 import pokemon from "./assets/pokemon.json";
+import ResWrap from './components/ResWrap'
 
 function App() {
-    const [filter, setFilter] = useState({regions: ['all'], types: ['all']})
+    const [filter, setFilter] = useState({regions: ['kanto'], types: ['all']})
     const [src, setSrc] = useState('')
     const [results, setResults] = useState([])
     const [didLoad, setDidLoad] = useState(false)
@@ -43,8 +44,13 @@ function App() {
 
     // RETURNS RESULTS BASED ONLOAD
     useEffect(() => {
+        console.log('THIS EFFECT WAS CALLE')
         resultData()
     }, [])
+
+    useEffect(() => {
+        console.log('RESULTS CHANGED')
+    }, [results])
 
     // RETURNS RESULTS BASED ON SEARCH
     const srcChange = () => {
@@ -57,20 +63,14 @@ function App() {
 
     return (
         <AppContextProvider>
-            <FilterSidebar setFilter={setFilter} filter={filter} filterChange={resultData} src={src} setSrc={setSrc} srcChange={srcChange}/>
-            {!didLoad ? 
-            'Loading...' : 
+            {didLoad &&
             <AppWrap>
+              <FilterSidebar setFilter={setFilter} filter={filter} filterChange={resultData} src={src} setSrc={setSrc} srcChange={srcChange}/>
                 <div className="res-and-list">
                     <ChartList />
-                    <div className="search-display">
-                        {results.length <= 0 && <p>No Pokemon Found...</p> }
-                        {results.length > 0 && results.map(result => (
-                            <PkmnRes key={result.name} meta={result} />
-                        ))}
-                    </div>
+                    <ResWrap results={results}/>
                 </div>
-                <Display results={results} />
+                <Display/>
             </AppWrap>
             }
         </AppContextProvider>

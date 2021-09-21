@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from 'react';
+import React, {useState, useEffect, useCallback} from 'react';
 import Chart from '../classes/ChartClass';
 
 const AppContext = React.createContext()
@@ -95,11 +95,11 @@ export const AppContextProvider = props => {
         })
     }
 
-    const pkmnClicked = (pkmnMeta) => {
+    const pkmnClicked = useCallback((pkmnMeta) => {
         console.log('clicked pokemon clicked', pkmnMeta)
         setSelectedPkmn(pkmnMeta)
         setPkmnSelected(true)
-    }
+    })
 
     const selectOff = (e) => {
         if(e.target.closest('.search-wrap') !== null 

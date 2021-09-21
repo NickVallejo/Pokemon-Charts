@@ -43,7 +43,6 @@ function Display(props) {
         <ChartForm setSaveHandler={saveChart} chartName={appCtx.myChart.name}/>
         <div className='box-wrap'>
             {appCtx.myChart.chart.map((el, index) => (<PkmnBox
-            results={props.results}
             from={from}
             pkmnSwitcherInit={pkmnSwitcherInit} 
             pkmnSwitcherToggle={pkmnSwitcherToggle} 
