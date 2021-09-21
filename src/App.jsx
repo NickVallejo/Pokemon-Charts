@@ -44,7 +44,7 @@ function App() {
     // RETURNS RESULTS BASED ONLOAD
     useEffect(() => {
         resultData()
-    })
+    }, [])
 
     // RETURNS RESULTS BASED ON SEARCH
     const srcChange = () => {
