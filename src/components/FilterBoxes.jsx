@@ -5,7 +5,6 @@ function FilterBoxes({filter, name, changeFilter, filterType}) {
     const [checked, setChecked] = useState(false)
 
     const inFilter = (name) => {
-        console.log(name)
         if(filter[filterType].includes(name)){
             return 'checked'
         }

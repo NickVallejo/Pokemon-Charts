@@ -1,42 +1,23 @@
-import React, { useState, useRef, useEffect, useCallback} from 'react'
-import PkmnRes from './PkmnRes'
-import axios from 'axios'
+import React, {useRef} from 'react'
 
-function Search(props) {
-    const [currentSrc, setCurrentSrc] = useState()
+function Search({src, setSrc, passUpSrc}) {
     const srcInput = useRef()
-    const {results} = props
 
-    useEffect(() => {
-        // results.sort((a, b) => {
-        //     if(a.id > b.id){
-        //         return 1
-        //     } else{
-        //         return -1
-        //     }
-        // })
-        console.log('RESULTS IN SEARCH AFTER SORT', props.results[1])
-    }, [])
+    const updateRes = () => {
+        setSrc(srcInput.current.value)
+    }
 
-    // const updateRes = (e) => {
-    //     e.preventDefault()
-    //     const src = srcInput.current.value
-    //     setCurrentSrc(src)
-    // }
+    const srcFilter = () => {
+        if(srcInput.current.value !== ''){
+            passUpSrc()
+        }
+    }
 
     return (
-        <div className="search-wrap">
-            <form action="">
-                <input ref={srcInput} type="text" />
-                {/* <button type='submit' onClick={updateRes}>Search</button> */}
-            </form>
-
-            <div className="search-display">
-                {results && results.length > 0 && results.map(result => (
-                    <PkmnRes key={result.name} result={result} />
-                ))}
+            <div className="src-filter">
+                <input ref={srcInput} onChange={updateRes} type="text" value={src}/>
+                <button type='submit' onClick={srcFilter}>Search</button>
             </div>
-        </div>
     )
 }
 

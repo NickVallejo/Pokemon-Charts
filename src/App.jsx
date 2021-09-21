@@ -1,4 +1,4 @@
-import React, { useState, useContext, useEffect, useMemo, useCallback} from 'react'
+import React, { useState, useEffect, useCallback} from 'react'
 import Search from './components/Search'
 import Display from './components/Display'
 import { AppContextProvider } from './helpers/AppCtx'
@@ -15,10 +15,11 @@ import pokemon from "./assets/pokemon.json";
 function App() {
     let allPokemon;
     const [filter, setFilter] = useState({regions: ['all'], types: ['all']})
+    const [src, setSrc] = useState('')
     const [results, setResults] = useState([])
     const [didLoad, setDidLoad] = useState(false)
 
-    const resultData = useCallback(() => {
+    const resultData = () => {
         let pkmnRes = []
         setDidLoad(false)
 
@@ -41,7 +42,7 @@ function App() {
         
         setResults(pkmnRes)
         setDidLoad(true)
-    }, [filter])
+    }
 
     useEffect(() => {
         resultData()
@@ -51,16 +52,24 @@ function App() {
         setFilter(newFilter)
     }
 
+    const srcChange = () => {
+        if(src !== ''){
+            const found = pokemon.filter(pkmn => pkmn.name.startsWith(src))
+            found.length > 0 ? setResults(found) : setResults([])
+        }
+        setSrc('')
+    }
+
     return (
         <AppContextProvider>
-            <FilterSidebar filter={filter} filterChange={filterChange}/>
+            <FilterSidebar filter={filter} filterChange={filterChange} src={src} setSrc={setSrc} srcChange={srcChange}/>
             {!didLoad ? 
             'Loading...' : 
             <AppWrap>
                 <div className="res-and-list">
                     <ChartList />
                     <div className="search-display">
-                        {results.length <= 0 && <p>Select a region.</p> }
+                        {results.length <= 0 && <p>No Pokemon Found...</p> }
                         {results.length > 0 && results.map(result => (
                             <PkmnRes key={result.name} meta={result} />
                         ))}

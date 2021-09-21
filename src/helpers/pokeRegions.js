@@ -1,5 +1,5 @@
 export const pokeRegions = {
-    all: {offset: 0, limit: 1100},
+    all: {offset: 0, limit: 899},
     kanto: {offset: 0, limit: 151},
     Johto: {offset: 151, limit: 100},
     Hoenn: {offset: 251, limit: 135},
