@@ -1,24 +1,13 @@
-import React, {useContext, useState, useEffect} from 'react'
+import React from 'react'
 import { pokeRegions, pokeTypes } from '../helpers/pokeRegions'
-import AppContext from '../helpers/AppCtx'
 import FilterBoxes from './FilterBoxes'
 import Search from './Search'
 
-function FilterSidebar({filter, filterChange, setSrc, src, srcChange}) {
-    console.log(filter, 'FILTER IN SIDEBAR')
-    const [mockFilter, setMockFilter] = useState(filter)
-
-    const passUpFilter = () => {
-        filterChange(mockFilter)
-    }
+function FilterSidebar({filter, filterChange, setSrc, src, srcChange, setFilter}) {
     
-    const passUpSrc = () => {
-        srcChange()
-    }
-
     const changeFilter = (checked, name, filterType) => {
-        if(checked == false){
-            setMockFilter(prevFilter => {
+        if(checked === false){
+            setFilter(prevFilter => {
                 const newFilter = {...prevFilter}
                 if(name === 'all'){
                     newFilter[filterType] = [name]
@@ -31,8 +20,8 @@ function FilterSidebar({filter, filterChange, setSrc, src, srcChange}) {
                 }
             })
         } else{
-            if(mockFilter[filterType].includes(name)){
-                setMockFilter(prevFilter => {
+            if(filter[filterType].includes(name)){
+                setFilter(prevFilter => {
                     const newFilter = {...prevFilter}
                     console.log(newFilter, filterType)
                     newFilter[filterType].splice(newFilter[filterType].indexOf(name), 1)
@@ -46,17 +35,17 @@ function FilterSidebar({filter, filterChange, setSrc, src, srcChange}) {
 
     return (
         <div className='filter-sidebar'>
-            <Search src={src} setSrc={setSrc} passUpSrc={passUpSrc}/>
+            <Search src={src} setSrc={setSrc} passUpSrc={srcChange}/>
             <div className="check-filter">
             <ul className="region-list">
-                {regionNames.map(name => <FilterBoxes key={name} filterType='regions' filter={mockFilter} name={name} changeFilter={changeFilter}/>)}
+                {regionNames.map(name => <FilterBoxes key={name} filterType='regions' filter={filter} name={name} changeFilter={changeFilter}/>)}
             </ul>
 
             <ul className="type-list">
-                {pokeTypes.map(name => <FilterBoxes key={name} filterType='types' filter={mockFilter} name={name} changeFilter={changeFilter}/>)}
+                {pokeTypes.map(name => <FilterBoxes key={name} filterType='types' filter={filter} name={name} changeFilter={changeFilter}/>)}
             </ul>
 
-            <button onClick={passUpFilter}>Filter</button>
+            <button onClick={filterChange}>Filter</button>
             </div>
         </div>
     )

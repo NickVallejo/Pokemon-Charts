@@ -1,25 +1,22 @@
 import React, { useState, useEffect, useCallback} from 'react'
-import Search from './components/Search'
 import Display from './components/Display'
 import { AppContextProvider } from './helpers/AppCtx'
 import AppWrap from './components/AppWrap'
 import ChartList from './components/ChartList'
-import axios from 'axios'
 import PkmnRes from './components/PkmnRes'
-import { pokeRegions, pokeTypes } from './helpers/pokeRegions'
+import { pokeRegions} from './helpers/pokeRegions'
 import './App.css'
 import FilterSidebar from './components/FilterSidebar'
-import AppContext from './helpers/AppCtx'
 import pokemon from "./assets/pokemon.json";
 
 function App() {
-    let allPokemon;
     const [filter, setFilter] = useState({regions: ['all'], types: ['all']})
     const [src, setSrc] = useState('')
     const [results, setResults] = useState([])
     const [didLoad, setDidLoad] = useState(false)
 
-    const resultData = () => {
+    // RETURNS RESULTS BASED ON FILTER
+    const resultData = useCallback(() => {
         let pkmnRes = []
         setDidLoad(false)
 
@@ -42,16 +39,14 @@ function App() {
         
         setResults(pkmnRes)
         setDidLoad(true)
-    }
-
-    useEffect(() => {
-        resultData()
     }, [filter])
 
-    const filterChange = (newFilter) => {
-        setFilter(newFilter)
-    }
+    // RETURNS RESULTS BASED ONLOAD
+    useEffect(() => {
+        resultData()
+    })
 
+    // RETURNS RESULTS BASED ON SEARCH
     const srcChange = () => {
         if(src !== ''){
             const found = pokemon.filter(pkmn => pkmn.name.startsWith(src))
@@ -62,7 +57,7 @@ function App() {
 
     return (
         <AppContextProvider>
-            <FilterSidebar filter={filter} filterChange={filterChange} src={src} setSrc={setSrc} srcChange={srcChange}/>
+            <FilterSidebar setFilter={setFilter} filter={filter} filterChange={resultData} src={src} setSrc={setSrc} srcChange={srcChange}/>
             {!didLoad ? 
             'Loading...' : 
             <AppWrap>
