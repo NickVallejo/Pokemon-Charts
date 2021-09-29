@@ -30,8 +30,22 @@ body {
           justify-content: space-between;
 }
 
-#pc-header .pc-header-wrap .logo-wrap h1 {
+#pc-header .pc-header-wrap .logo-wrap {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+}
+
+#pc-header .pc-header-wrap .logo-wrap .logo-img {
+  max-width: 40px;
+}
+
+#pc-header .pc-header-wrap .logo-wrap .logo-title {
   margin: 0px;
+  margin-left: 10px;
   color: #f9f9f9;
 }
 
@@ -138,6 +152,26 @@ body {
 .chart-display-info .chart-form .chart-save-input {
   max-width: 365px;
   width: 100%;
+}
+
+.chart-display-info .new-chart-btn {
+  background: #f04037;
+  color: #f9f9f9;
+  border: 2px solid #f04037;
+  margin-right: 15px;
+  font-weight: 800;
+  font-size: 14px;
+  padding: 5px 10px;
+  letter-spacing: 2px;
+  cursor: pointer;
+  -webkit-transition: 0.2s all;
+  transition: 0.2s all;
+  border-radius: 5px;
+}
+
+.chart-display-info .new-chart-btn:hover {
+  background: transparent;
+  color: #f04037;
 }
 
 .slide-btn-wrap {
@@ -248,6 +282,7 @@ body {
 
 .pkmn-display {
   width: 33.33%;
+  margin: 5px 0px;
 }
 
 .pkmn-display h4 {
@@ -272,6 +307,7 @@ body {
   height: calc(100vh - 80px);
   background: #f9f9f9;
   padding: 15px;
+  padding-bottom: 0px;
   -webkit-box-sizing: border-box;
           box-sizing: border-box;
   position: relative;
@@ -421,5 +457,51 @@ body {
 
 .chart-slide .chart-list .chart-list-li .li-opts .fa-trash-alt {
   margin-left: 7px;
+}
+
+.chart-slide .chart-uploader {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
+  margin-top: 25px;
+}
+
+.chart-slide .chart-uploader input[type="file"] {
+  max-width: 180px;
+}
+
+.chart-slide .no-charts-txt {
+  font-size: 14px;
+  margin-top: 30px;
+}
+
+.filter-slide .type-list,
+.filter-slide .region-list {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -ms-flex-wrap: wrap;
+      flex-wrap: wrap;
+  list-style: none;
+  padding-left: 0px;
+}
+
+.filter-slide .type-list li,
+.filter-slide .region-list li {
+  font-weight: 800;
+  width: 50%;
+  margin-bottom: 5px;
+}
+
+.filter-slide .type-list li label,
+.filter-slide .region-list li label {
+  margin-left: 5px;
+  text-transform: capitalize;
 }
 /*# sourceMappingURL=App.css.map */

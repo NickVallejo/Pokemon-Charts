@@ -114,6 +114,28 @@ export const AppContextProvider = props => {
         setMyChart({...myChartList[index]})
     }
 
+    const deleteListItem = index => {
+        myChart.name === myChartList[index].name && setNewChart()
+        setMyChartList(prevList => {
+            const mutList = Array.from(prevList)
+            mutList.splice(index, 1)
+            console.log('NEW MUTATED LIST', mutList)
+            return mutList
+        })
+    }
+
+    const downloadListItem = (index) => {
+        const stringSave = JSON.stringify(myChartList[index])
+        const chartName = myChartList[index].name
+        
+        const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(stringSave);
+        const dlAnchorEl = document.getElementById('downloadEl')
+        dlAnchorEl.setAttribute("href", dataStr);
+        dlAnchorEl.setAttribute("download", `${chartName}.json`);
+        dlAnchorEl.click();
+
+    }
+
     const setNewChart = () => {
         setMyChart(new Chart(false, [null,null,null,null,null,null,null,null,null,null]))
     }
@@ -127,7 +149,9 @@ export const AppContextProvider = props => {
         selectListItem,
         setNewChart,
         setMyChart,
-        uploadChartToList
+        uploadChartToList,
+        deleteListItem,
+        downloadListItem
     }}>{props.children}</AppContext.Provider>
 }
 

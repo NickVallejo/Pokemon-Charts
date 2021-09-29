@@ -42,14 +42,14 @@ function FilterSidebar({filter, filterChange, setFilter}) {
         <div className={`filter-slide ${slideCtx.filterSlide ? 'show-filter' : ''}`}>
             <i className="fas fa-times fa-2x" onClick={passUpSlide}></i>
             <div className="check-filter">
+            <h3>Regions</h3>
             <ul className="region-list">
                 {regionNames.map(name => <FilterBoxes key={name} filterType='regions' filter={filter} name={name} changeFilter={changeFilter}/>)}
             </ul>
-
+            <h3>Types</h3>
             <ul className="type-list">
                 {pokeTypes.map(name => <FilterBoxes key={name} filterType='types' filter={filter} name={name} changeFilter={changeFilter}/>)}
             </ul>
-
             <button onClick={filterChange}>Filter</button>
             </div>
         </div>

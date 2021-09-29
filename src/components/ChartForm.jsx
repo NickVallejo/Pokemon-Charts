@@ -23,7 +23,7 @@ function ChartForm(props) {
         <form className="chart-form">
             <input className="chart-save-input pkmn-input" ref={nameSaveInput} onKeyDown={setSaveName} placeholder='Name your chart to save...' type="text" />
             {/* <button type="submit" onClick={setSaveName}>Save</button> */}
-        </form> : <button onClick={setNewChart}>New Chart</button>}
+        </form> : <button className="new-chart-btn" onClick={setNewChart}>New Chart</button>}
     </div>
     )
 }
