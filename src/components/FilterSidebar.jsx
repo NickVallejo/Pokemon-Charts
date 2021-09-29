@@ -1,9 +1,10 @@
-import React from 'react'
+import React, {useContext} from 'react'
 import { pokeRegions, pokeTypes } from '../helpers/pokeRegions'
 import FilterBoxes from './FilterBoxes'
-import Search from './Search'
+import SlideContext from '../helpers/SlideCtx'
 
-function FilterSidebar({filter, filterChange, setSrc, src, srcChange, setFilter}) {
+function FilterSidebar({filter, filterChange, setFilter}) {
+    const slideCtx = useContext(SlideContext)
     
     const changeFilter = (checked, name, filterType) => {
         if(checked === false){
@@ -15,6 +16,7 @@ function FilterSidebar({filter, filterChange, setSrc, src, srcChange, setFilter}
                 } else{
                     newFilter[filterType].includes('all') &&
                     newFilter[filterType].splice(newFilter[filterType].indexOf('all'), 1)
+                    
                     newFilter[filterType].push(name)
                     return newFilter
                 }
@@ -23,7 +25,6 @@ function FilterSidebar({filter, filterChange, setSrc, src, srcChange, setFilter}
             if(filter[filterType].includes(name)){
                 setFilter(prevFilter => {
                     const newFilter = {...prevFilter}
-                    console.log(newFilter, filterType)
                     newFilter[filterType].splice(newFilter[filterType].indexOf(name), 1)
                     return newFilter
                 })
@@ -31,11 +32,15 @@ function FilterSidebar({filter, filterChange, setSrc, src, srcChange, setFilter}
         }
     }
 
+    const passUpSlide = () => {
+        slideCtx.closeSlideHandler('filter')
+    }
+
     const regionNames = Object.keys(pokeRegions)
 
     return (
-        <div className='filter-sidebar'>
-            <Search src={src} setSrc={setSrc} passUpSrc={srcChange}/>
+        <div className={`filter-slide ${slideCtx.filterSlide ? 'show-filter' : ''}`}>
+            <i className="fas fa-times fa-2x" onClick={passUpSlide}></i>
             <div className="check-filter">
             <ul className="region-list">
                 {regionNames.map(name => <FilterBoxes key={name} filterType='regions' filter={filter} name={name} changeFilter={changeFilter}/>)}

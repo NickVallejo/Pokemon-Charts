@@ -3,17 +3,12 @@ import Chart from '../classes/ChartClass';
 
 const AppContext = React.createContext()
 
-export const AppContextProvider = props => {
-    const [pkmnSelected, setPkmnSelected] = useState(false)    
+export const AppContextProvider = props => {  
     const [chartSize, setChartSize] = useState(10)
     const [justSaved, setJustSaved] = useState(false)
     const [myChart, setMyChart] = useState(new Chart(false, [null,null,null,null,null,null,null,null,null,null]))
     const [myChartList, setMyChartList] = useState([])
-    const [selectedPkmn, setSelectedPkmn] = useState(undefined)
-
-    useEffect(() => {
-        console.log('POKEMON SELECTED?', pkmnSelected)
-    }, [pkmnSelected])
+    const [justUploaded, setJustUploaded] = useState(false)
 
     useEffect(() => {
         //if local storage, set chart list to be what's inside local storage
@@ -26,6 +21,12 @@ export const AppContextProvider = props => {
 
     //once localstorage is added to myChart state, set myChart to be the first in the array
     useEffect(() => {
+        if(justUploaded){
+            alert('Uploaded!')
+            setJustUploaded(false)
+            return
+        }
+
         if(myChartList && myChartList.length > 0 && !justSaved){
             setMyChart(myChartList[0])
             console.log('not just saved')
@@ -36,7 +37,7 @@ export const AppContextProvider = props => {
         }
 
         return
-    }, [myChartList])
+    }, [myChartList, justSaved])
 
     //pushes newly saved cahrt to chart list
     //! THIS LOGIC MAKES THE EFFECT ABOVE TRIGGER
@@ -54,37 +55,37 @@ export const AppContextProvider = props => {
         })
     }
 
+    const uploadChartToList = (chart) => {
+        if(!chart.chart.every(el => (el !== null && el.hasOwnProperty('sprites')) || el === null) || !chart.name){
+            alert('Invalid JSON Object.')
+            return
+        }
+        const nameNotTaken = myChartList.every(list => list.name !== chart.name)
+
+        if(!nameNotTaken){
+            const overWrite = window.confirm('You already have a chart with this name! Overwrite?')
+            if(!overWrite) return
+        }
+
+        setJustUploaded(true)
+        setMyChartList(prevList => {
+            const mutList = Array.from(prevList)
+            const sameName = mutList.findIndex(list => list.name === chart.name)
+            console.log('SAME NAME FOUND?', sameName)
+            if(sameName !== -1){
+                mutList.splice(sameName, 1, chart)
+            } else{
+                mutList.push(chart)
+            }
+            return mutList
+        })
+        
+    }
+
     useEffect(() => {
         localStorage.setItem('myChartList', JSON.stringify(myChartList))
         console.log('retreiving my chart list', myChartList)
     }, [myChart, myChartList])
-
-    const addToChart = (index) => {
-        //Shifting algorithm
-        setMyChart(prevChart => {
-            const mutChart = {...prevChart}
-            //THIS IS A BUGGED OUT INSERT ALGORITHM THAT IS COMMENTED OUT FOR NOW
-            //let popBool = false
-            //let toBeMoved = []
-            //console.log(`LOOKING AT YOU ${JSON.stringify(mutChart.chart[0])}`)
-            // if(mutChart.chart[index] !== null){
-            //     for(let i = index; mutChart.chart[i] !== null && i < 10; i++){
-            //             toBeMoved.push({el: mutChart.chart[i], index: i})
-            //             console.log(`in the loop ${i}`)
-            //             popBool = i == 9 ? true : false
-            //     }
-            //     toBeMoved.forEach(move => {
-            //         console.log('THE MOVE', move.index+1)
-            //         mutChart.chart[move.index+1] = move.el
-            //     })
-            // }
-            mutChart.chart[index] = selectedPkmn
-            //popBool && mutChart.chart.pop()
-            return mutChart
-        })
-        setPkmnSelected(false)
-        setSelectedPkmn(undefined)
-    }
 
     const removePkmn = (index) => {
         setMyChart(prevChart => {
@@ -93,23 +94,6 @@ export const AppContextProvider = props => {
             mutChart.chart[index] = null
             return mutChart
         })
-    }
-
-    const pkmnClicked = useCallback((pkmnMeta) => {
-        console.log('clicked pokemon clicked', pkmnMeta)
-        setSelectedPkmn(pkmnMeta)
-        setPkmnSelected(true)
-    })
-
-    const selectOff = (e) => {
-        if(e.target.closest('.search-wrap') !== null 
-        || e.target.closest('.pkmn-box') && !pkmnSelected
-        || e.target.closest('.pkmn-display') && !pkmnSelected){
-            return
-        }
-
-        setPkmnSelected(false)
-        setSelectedPkmn(undefined)
     }
 
     const pkmnDisplaySwitch = (from, to) => {
@@ -135,17 +119,15 @@ export const AppContextProvider = props => {
     }
 
     return <AppContext.Provider value = {{
-        pkmnSelected,
         myChart,
         myChartList,
-        pkmnClicked,
-        selectOff,
-        addToChart,
         removePkmn,
         saveChartToList,
         pkmnDisplaySwitch,
         selectListItem,
-        setNewChart
+        setNewChart,
+        setMyChart,
+        uploadChartToList
     }}>{props.children}</AppContext.Provider>
 }
 

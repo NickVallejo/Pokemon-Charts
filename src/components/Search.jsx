@@ -7,16 +7,15 @@ function Search({src, setSrc, passUpSrc}) {
         setSrc(srcInput.current.value)
     }
 
-    const srcFilter = () => {
-        if(srcInput.current.value !== ''){
+    const srcFilter = (e) => {
+        if(srcInput.current.value !== '' && e.key === 'Enter'){
             passUpSrc()
         }
     }
 
     return (
             <div className="src-filter">
-                <input ref={srcInput} onChange={updateRes} type="text" value={src}/>
-                <button type='submit' onClick={srcFilter}>Search</button>
+                <input class='pkmn-input' ref={srcInput} onChange={updateRes} onKeyDown={srcFilter} type="text" value={src} placeholder='Search for a Pokemon...'/>
             </div>
     )
 }

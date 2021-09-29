@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useCallback} from 'react'
 import Display from './components/Display'
 import { AppContextProvider } from './helpers/AppCtx'
+import { ClickContextProvider } from './helpers/ClickCtx'
 import AppWrap from './components/AppWrap'
 import ChartList from './components/ChartList'
 import PkmnRes from './components/PkmnRes'
@@ -9,6 +10,9 @@ import './App.css'
 import FilterSidebar from './components/FilterSidebar'
 import pokemon from "./assets/pokemon.json";
 import ResWrap from './components/ResWrap'
+import Search from './components/Search'
+import { SlideContextProvider } from './helpers/SlideCtx'
+import SlideBtns from './components/SlideBtns'
 
 function App() {
     const [filter, setFilter] = useState({regions: ['kanto'], types: ['all']})
@@ -24,7 +28,6 @@ function App() {
         if(filter.regions.length > 0){
             for(const region of filter.regions){
                 const filtRegion = pokeRegions[region]
-                console.log('FILTER REGION', filtRegion)
                 for(let i = filtRegion.offset; i < filtRegion.offset + filtRegion.limit; i++){
                     if(filter.types.length && !filter.types.includes('all')){
                         const found = pokemon[i].types.some(type => filter.types.includes(type)) 
@@ -35,8 +38,6 @@ function App() {
                 }
             }
         }
-
-        console.log('TADAA!! Filtered pokemon data', pkmnRes)
         
         setResults(pkmnRes)
         setDidLoad(true)
@@ -44,13 +45,8 @@ function App() {
 
     // RETURNS RESULTS BASED ONLOAD
     useEffect(() => {
-        console.log('THIS EFFECT WAS CALLE')
         resultData()
     }, [])
-
-    useEffect(() => {
-        console.log('RESULTS CHANGED')
-    }, [results])
 
     // RETURNS RESULTS BASED ON SEARCH
     const srcChange = () => {
@@ -63,16 +59,22 @@ function App() {
 
     return (
         <AppContextProvider>
-            {didLoad &&
-            <AppWrap>
-              <FilterSidebar setFilter={setFilter} filter={filter} filterChange={resultData} src={src} setSrc={setSrc} srcChange={srcChange}/>
-                <div className="res-and-list">
-                    <ChartList />
-                    <ResWrap results={results}/>
-                </div>
-                <Display/>
-            </AppWrap>
-            }
+            <ClickContextProvider>
+                {didLoad &&
+                <AppWrap>
+                    <div className="res-and-list">
+                        <SlideContextProvider>
+                            <SlideBtns />
+                            <FilterSidebar setFilter={setFilter} filter={filter} filterChange={resultData} src={src} setSrc={setSrc} srcChange={srcChange}/>
+                            <ChartList />
+                        </SlideContextProvider>
+                        <Search src={src} setSrc={setSrc} passUpSrc={srcChange}/>
+                        <ResWrap results={results}/>
+                    </div>
+                    <Display/>
+                </AppWrap>
+                }
+            </ClickContextProvider>
         </AppContextProvider>
     )
 }

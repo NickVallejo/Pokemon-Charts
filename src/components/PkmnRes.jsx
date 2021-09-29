@@ -1,21 +1,23 @@
 import React, {useContext, useEffect, useState, useCallback} from 'react'
-import AppContext from '../helpers/AppCtx'
+import ClickContext from '../helpers/ClickCtx'
 import PkmnHover from './PkmnHover'
 
 function PkmnRes(props) {
-    const appCtx = useContext(AppContext)
+    const clickCtx = useContext(ClickContext)
     const [pkmnMeta, setPkmnMeta] = useState(props.meta)
     const [imClicked, setImClicked] = useState(false)
     // console.log(pkmnMeta, 'PKMNRES META')
 
-    useEffect(() => { 
-        (!appCtx.pkmnSelected && imClicked) && setImClicked(false)
-        console.log('RES MOUNT')
-    }, [appCtx.pkmnSelected])
+    useEffect(() => {
+        //if pkmnselected was just changed to false and I'm clicked, set me to false
+        // (!clickCtx.selectedPkmn && imClicked) && setImClicked(false)
+        console.log('render res!')
+        if(clickCtx.selectedPkmn !== pkmnMeta){setImClicked(false)}
+    }, [clickCtx.selectedPkmn])
 
     const pkmnClickHandler = useCallback(() => {
         setImClicked(true)
-        appCtx.pkmnClicked(pkmnMeta)
+        clickCtx.pkmnClicked(pkmnMeta)
     })
 
     if(pkmnMeta){

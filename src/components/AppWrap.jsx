@@ -1,11 +1,11 @@
 import React, {useContext} from 'react'
-import AppContext from '../helpers/AppCtx'
+import ClickContext from '../helpers/ClickCtx'
 
 function AppWrap(props) {
-    const appCtx = useContext(AppContext)
-
+    const clickCtx = useContext(ClickContext)
+    
     return (
-        <div className="app-wrap" onClick={appCtx.selectOff}>
+        <div className="app-wrap" onClick={clickCtx.selectOff}>
             {props.children}
         </div>
     )

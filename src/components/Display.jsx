@@ -1,10 +1,12 @@
 import React, {useContext, useState, useEffect} from 'react'
 import PkmnBox from './PkmnBox'
 import AppContext from '../helpers/AppCtx'
+import ClickContext from '../helpers/ClickCtx'
 import ChartForm from './ChartForm'
 
 function Display(props) {
     const appCtx = useContext(AppContext)
+    const clickCtx = useContext(ClickContext)
     const [pkmnSwitch, setPkmnSwitch] = useState(false)
     const [from, setFrom] = useState('')
     const [to, setTo] = useState('')
@@ -22,6 +24,12 @@ function Display(props) {
         }
     }, [to])
 
+    useEffect(() => {
+        if(clickCtx.selectedPkmn){
+            pkmnSwitchCancel()
+        }
+    }, [clickCtx.selectedPkmn])
+
 
     const saveChart = (name) => {
         appCtx.saveChartToList(name)
@@ -38,20 +46,28 @@ function Display(props) {
         setFrom(id)
     }
 
+    const pkmnSwitchCancel = () => {
+        setPkmnSwitch(false)
+        setFrom('')
+    }
+
     return (
-        <section className="display-sec">
-        <ChartForm setSaveHandler={saveChart} chartName={appCtx.myChart.name}/>
-        <div className='box-wrap'>
-            {appCtx.myChart.chart.map((el, index) => (<PkmnBox
-            from={from}
-            pkmnSwitcherInit={pkmnSwitcherInit} 
-            pkmnSwitcherToggle={pkmnSwitcherToggle} 
-            pkmnSwitch={pkmnSwitch} 
-            key={index} 
-            id={index} 
-            myPkmn={el}/>))}
+    <section className="display-sec">
+        <div className="display-sec-wrap">
+            <ChartForm setSaveHandler={saveChart} chartName={appCtx.myChart.name}/>
+            <div className='box-wrap'>
+                {appCtx.myChart.chart.map((el, index) => (<PkmnBox
+                from={from}
+                pkmnSwitchCancel={pkmnSwitchCancel}
+                pkmnSwitcherInit={pkmnSwitcherInit} 
+                pkmnSwitcherToggle={pkmnSwitcherToggle} 
+                pkmnSwitch={pkmnSwitch} 
+                key={index} 
+                id={index} 
+                myPkmn={el}/>))}
+            </div>
         </div>
-        </section>
+    </section>
     )
 }
 

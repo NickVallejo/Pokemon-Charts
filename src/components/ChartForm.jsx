@@ -6,9 +6,8 @@ function ChartForm(props) {
     const nameSaveInput = useRef()
 
     const setSaveName = (e) => {
-        e.preventDefault()
         const currentInput = nameSaveInput.current.value
-        if(currentInput){
+        if(e.key === 'Enter' && currentInput.trim() !== ''){
             props.setSaveHandler(currentInput)
         }
     }
@@ -19,11 +18,11 @@ function ChartForm(props) {
 
     return (
     <div className="chart-display-info">
-        <h3 className="chart-title">{props.chartName ? props.chartName : "Name your chart to save!"}</h3>
+        {props.chartName && <h3 className="chart-title">{props.chartName}</h3>}
         {!props.chartName ?
         <form className="chart-form">
-            <input ref={nameSaveInput} type="text" />
-            <button type="submit" onClick={setSaveName}>Save</button>
+            <input className="chart-save-input pkmn-input" ref={nameSaveInput} onKeyDown={setSaveName} placeholder='Name your chart to save...' type="text" />
+            {/* <button type="submit" onClick={setSaveName}>Save</button> */}
         </form> : <button onClick={setNewChart}>New Chart</button>}
     </div>
     )
