@@ -6,9 +6,11 @@ const AppContext = React.createContext()
 export const AppContextProvider = props => {  
     const [chartSize, setChartSize] = useState(10)
     const [justSaved, setJustSaved] = useState(false)
-    const [myChart, setMyChart] = useState(new Chart(false, [null,null,null,null,null,null,null,null,null,null]))
+    const [myChart, setMyChart] = useState(new Chart(false, Array(10).fill(undefined)))
     const [myChartList, setMyChartList] = useState([])
     const [justUploaded, setJustUploaded] = useState(false)
+    const [justUpdated, setJustUpdated] = useState(false)
+    const [radioSize, setRadioSize] = useState()
 
     useEffect(() => {
         //if local storage, set chart list to be what's inside local storage
@@ -21,6 +23,11 @@ export const AppContextProvider = props => {
 
     //once localstorage is added to myChart state, set myChart to be the first in the array
     useEffect(() => {
+        if(justUpdated){
+            setJustUpdated(false)
+            return
+        }
+
         if(justUploaded){
             alert('Uploaded!')
             setJustUploaded(false)
@@ -83,8 +90,8 @@ export const AppContextProvider = props => {
     }
 
     useEffect(() => {
+        setRadioSize(myChart.chart.length)
         localStorage.setItem('myChartList', JSON.stringify(myChartList))
-        console.log('retreiving my chart list', myChartList)
     }, [myChart, myChartList])
 
     const removePkmn = (index) => {
@@ -106,6 +113,14 @@ export const AppContextProvider = props => {
             mutChart.chart[from] = toObj
             mutChart.chart[to] = fromObj
 
+            return mutChart
+        })
+    }
+
+    const pkmnDisplayAdd = (index, pkmn) => {
+        setMyChart(prevChart => {
+            const mutChart = {...prevChart}
+            mutChart.chart[index] = pkmn
             return mutChart
         })
     }
@@ -137,12 +152,53 @@ export const AppContextProvider = props => {
     }
 
     const setNewChart = () => {
-        setMyChart(new Chart(false, [null,null,null,null,null,null,null,null,null,null]))
+        setMyChart(new Chart(false, Array(10).fill(undefined)))
+    }
+
+    const updateChart = (newChart) => {
+        console.log('PING PING [PING',myChart.name)
+        const index = myChartList.findIndex(chart => chart.name === myChart.name)
+        if(index !== -1){
+            setJustUpdated(true)
+            setMyChartList(prevList => {
+                const mutList = Array.from(prevList)
+                mutList[index].chart = newChart
+                return mutList
+            })
+        }
+    }
+
+    const changeChartSize = (size) => {
+
+        if(myChart.chart.length == size) return
+
+        if(myChart.chart.length < size){
+            setMyChart(prevChart => {
+                const mutChart = Object.assign({}, prevChart)
+                const emptySpaces = Array(size - mutChart.chart.length).fill(undefined)
+                mutChart.chart = [...mutChart.chart, ...emptySpaces]
+                updateChart(mutChart.chart)
+                return mutChart
+            })
+        } else{
+            const reduceSize = window.confirm(`Reducing chart size will result in the loss of pokemon ranked higher than ${size}. Continue?`)
+            if(!reduceSize) return
+            setMyChart(prevChart => {
+                const mutChart = Object.assign({}, prevChart)
+                const diff = mutChart.chart.length - size
+                console.log(diff, 'DIFFERENCE')
+                for(let i = 0; i < diff; i++){mutChart.chart.pop()}
+                console.log('MUT CHART ON REDUCTION', mutChart)
+                updateChart(mutChart.chart)
+                return mutChart
+            })
+        }
     }
 
     return <AppContext.Provider value = {{
         myChart,
         myChartList,
+        radioSize,
         removePkmn,
         saveChartToList,
         pkmnDisplaySwitch,
@@ -151,7 +207,9 @@ export const AppContextProvider = props => {
         setMyChart,
         uploadChartToList,
         deleteListItem,
-        downloadListItem
+        downloadListItem,
+        changeChartSize,
+        pkmnDisplayAdd
     }}>{props.children}</AppContext.Provider>
 }
 

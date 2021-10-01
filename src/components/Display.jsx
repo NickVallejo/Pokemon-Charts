@@ -7,48 +7,29 @@ import ChartForm from './ChartForm'
 function Display(props) {
     const appCtx = useContext(AppContext)
     const clickCtx = useContext(ClickContext)
-    const [pkmnSwitch, setPkmnSwitch] = useState(false)
-    const [from, setFrom] = useState('')
-    const [to, setTo] = useState('')
+    // const [pkmnSwitch, setPkmnSwitch] = useState(false)
+    // const [from, setFrom] = useState('')
+    // const [to, setTo] = useState('')
 
-    console.log('MY CHART BEFORE MAP', appCtx.myChart)
+    const {pkmnSwitcherInit, pkmnSwitcherToggle, pkmnSwitchCancel, selectedPkmn, from, to, pkmnSwitch} = clickCtx
 
     useEffect(() => {
         if(!isNaN(from) && !isNaN(to)){
             appCtx.pkmnDisplaySwitch(from, to)
         }
         return () => {
-            setPkmnSwitch(false)
-            setFrom('')
-            setTo('')
+            pkmnSwitchCancel()
         }
     }, [to])
 
     useEffect(() => {
-        if(clickCtx.selectedPkmn){
+        if(selectedPkmn){
             pkmnSwitchCancel()
         }
-    }, [clickCtx.selectedPkmn])
-
+    }, [selectedPkmn])
 
     const saveChart = (name) => {
         appCtx.saveChartToList(name)
-    }
-
-    const pkmnSwitcherInit = (id) => {
-        if(pkmnSwitch){
-            setTo(id)
-        }
-    }
-
-    const pkmnSwitcherToggle = (id) => {
-        setPkmnSwitch(true)
-        setFrom(id)
-    }
-
-    const pkmnSwitchCancel = () => {
-        setPkmnSwitch(false)
-        setFrom('')
     }
 
     return (
@@ -58,9 +39,6 @@ function Display(props) {
             <div className='box-wrap'>
                 {appCtx.myChart.chart.map((el, index) => (<PkmnBox
                 from={from}
-                pkmnSwitchCancel={pkmnSwitchCancel}
-                pkmnSwitcherInit={pkmnSwitcherInit} 
-                pkmnSwitcherToggle={pkmnSwitcherToggle} 
                 pkmnSwitch={pkmnSwitch} 
                 key={index} 
                 id={index} 

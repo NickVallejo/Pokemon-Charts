@@ -1,5 +1,6 @@
 import React, {useRef, useContext} from 'react'
 import AppContext from '../helpers/AppCtx'
+import SizeSetter from './SizeSetter'
 
 function ChartForm(props) {
     const appCtx = useContext(AppContext)
@@ -19,11 +20,13 @@ function ChartForm(props) {
     return (
     <div className="chart-display-info">
         {props.chartName && <h3 className="chart-title">{props.chartName}</h3>}
+        <div className="display-right">
+        <SizeSetter />
         {!props.chartName ?
-        <form className="chart-form">
-            <input className="chart-save-input pkmn-input" ref={nameSaveInput} onKeyDown={setSaveName} placeholder='Name your chart to save...' type="text" />
-            {/* <button type="submit" onClick={setSaveName}>Save</button> */}
-        </form> : <button className="new-chart-btn" onClick={setNewChart}>New Chart</button>}
+            <form className="chart-form">
+                <input className="chart-save-input pkmn-input" ref={nameSaveInput} onKeyDown={setSaveName} placeholder='Name your chart to save...' type="text" />
+            </form> : <button className="new-chart-btn" onClick={setNewChart}>New Chart</button>}
+        </div>
     </div>
     )
 }

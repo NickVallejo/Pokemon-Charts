@@ -19,6 +19,13 @@ function App() {
     const [src, setSrc] = useState('')
     const [results, setResults] = useState([])
     const [didLoad, setDidLoad] = useState(false)
+    const [scrolling, setScrolling] = useState(false)
+    let scrollY = window.scrollY
+
+    const scrollCheck = () => {
+        scrollY = window.scrollY
+        scrollY > 0 ? setScrolling(true) : setScrolling(false)
+    }
 
     // RETURNS RESULTS BASED ON FILTER
     const resultData = useCallback(() => {
@@ -45,13 +52,17 @@ function App() {
 
     // RETURNS RESULTS BASED ONLOAD
     useEffect(() => {
+        window.addEventListener('scroll', scrollCheck)
+        scrollCheck()
         resultData()
     }, [])
 
     // RETURNS RESULTS BASED ON SEARCH
     const srcChange = () => {
         if(src !== ''){
-            const found = pokemon.filter(pkmn => pkmn.name.startsWith(src))
+            const srcFormat = src.replace(' ', '-').toLowerCase()
+            console.log(srcFormat, 'SEARCH')
+            const found = pokemon.filter(pkmn => pkmn.name.startsWith(srcFormat))
             found.length > 0 ? setResults(found) : setResults([])
         }
         setSrc('')
@@ -62,13 +73,13 @@ function App() {
             <ClickContextProvider>
                 {didLoad &&
                 <AppWrap>
-                    <div className="res-and-list">
+                    <div className={`res-and-list ${scrolling ? 'res-and-list-scroll' : ''}`}>
                         <SlideContextProvider>
                             <SlideBtns />
                             <FilterSidebar setFilter={setFilter} filter={filter} filterChange={resultData} src={src} setSrc={setSrc} srcChange={srcChange}/>
                             <ChartList />
                         </SlideContextProvider>
-                        <Search src={src} setSrc={setSrc} passUpSrc={srcChange}/>
+                        <Search backToFilter={resultData} src={src} setSrc={setSrc} passUpSrc={srcChange}/>
                         <ResWrap results={results}/>
                     </div>
                     <Display/>

@@ -1,41 +1,59 @@
-import React, {useState, useEffect, useCallback} from 'react';
+import React, {useState, useCallback} from 'react';
 
 const ClickContext = React.createContext()
 
 export const ClickContextProvider = props => {
     //const [pkmnSelected, setPkmnSelected] = useState(false)
     const [selectedPkmn, setSelectedPkmn] = useState(undefined)
+    const [pkmnSwitch, setPkmnSwitch] = useState(false)
+    const [from, setFrom] = useState('')
+    const [to, setTo] = useState('')
    
     const pkmnClicked = useCallback((pkmnMeta) => {
-        console.log('clicked pokemon clicked', pkmnMeta)
         setSelectedPkmn(pkmnMeta)
-        // setPkmnSelected(true)
     })
 
-    // const pkmnSwitched = useCallback(() => {
-    //     setSelectedPkmn(undefined)
-    // })
-
     const selectOff = useCallback((e) => {
-        console.log('SELECT OFF', e)
+        console.log('SELECT OOOOOOOOOOOOOOFF', e.target)
         if(e.target.closest('.search-wrap') !== null 
         || e.target.closest('.pkmn-box') && !selectedPkmn
         || e.target.closest('.pkmn-display')){
             return
         }
 
-        //setPkmnSelected(false)
+        pkmnSwitchCancel()
         setSelectedPkmn(undefined)
     })
+
+    const pkmnSwitcherInit = (id) => {
+        if(pkmnSwitch){
+            setTo(id)
+        }
+    }
+
+    const pkmnSwitcherToggle = (id) => {
+        setPkmnSwitch(true)
+        setFrom(id)
+    }
+
+    const pkmnSwitchCancel = () => {
+        setPkmnSwitch(false)
+        setFrom('')
+        setTo('')
+    }
 
     return <ClickContext.Provider value = {{
         // pkmnSelected,
         selectedPkmn,
+        pkmnSwitch,
+        from,
+        to,
         selectOff,
         pkmnClicked,
-        // setPkmnSelected,
-        // pkmnSwitched,
-        setSelectedPkmn
+        setSelectedPkmn,
+        pkmnSwitchCancel,
+        pkmnSwitcherToggle,
+        pkmnSwitcherInit
     }}>{props.children}</ClickContext.Provider>
 }
 

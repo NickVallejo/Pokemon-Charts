@@ -36,6 +36,11 @@ function FilterSidebar({filter, filterChange, setFilter}) {
         slideCtx.closeSlideHandler('filter')
     }
 
+    const filterChangeHandler = () => {
+        filterChange()
+        passUpSlide()
+    }
+
     const regionNames = Object.keys(pokeRegions)
 
     return (
@@ -50,7 +55,7 @@ function FilterSidebar({filter, filterChange, setFilter}) {
             <ul className="type-list">
                 {pokeTypes.map(name => <FilterBoxes key={name} filterType='types' filter={filter} name={name} changeFilter={changeFilter}/>)}
             </ul>
-            <button onClick={filterChange}>Filter</button>
+            <button className="filter-btn" onClick={filterChangeHandler}>Filter</button>
             </div>
         </div>
     )

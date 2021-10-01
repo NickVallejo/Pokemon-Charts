@@ -11,12 +11,7 @@ function PkmnBox(props) {
 
     const addToChart = useCallback((index) => {
         //Shifting algorithm
-        appCtx.setMyChart(prevChart => {
-            const mutChart = {...prevChart}
-            mutChart.chart[index] = clickCtx.selectedPkmn
-            return mutChart
-        })
-        // clickCtx.setPkmnSelected(false)
+        appCtx.pkmnDisplayAdd(index, clickCtx.selectedPkmn)
         clickCtx.setSelectedPkmn(undefined)
     })
 
@@ -30,12 +25,12 @@ function PkmnBox(props) {
     const pkmnSwitch = (e) => {
         if(!e.target.classList.contains('del-pkmn')){
             if(props.pkmnSwitch){
-                props.pkmnSwitcherInit(id)
+                clickCtx.pkmnSwitcherInit(id)
             } else{
-                props.pkmnSwitcherToggle(id)
+                clickCtx.pkmnSwitcherToggle(id)
             }
         } else{
-            props.pkmnSwitchCancel()
+            clickCtx.pkmnSwitchCancel()
         }
     }
 

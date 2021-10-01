@@ -32,7 +32,7 @@ function ChartList() {
             <a style={{display: 'none'}} id="downloadEl"></a>
             <ul className='chart-list'>
                 {appCtx.myChartList.length === 0 &&
-                   <p class="no-charts-txt">No charts yet! Give your chart a name to save it!</p>
+                   <p className="no-charts-txt">No charts yet! Give your chart a name to save it!</p>
                 }
                 {appCtx.myChartList && appCtx.myChartList.map((chart, index) => (
                     <ChartListItem key={index} index={index} name={chart.name} download={downloadListItem} select={selectListItem} delete={deleteListItem}/>
