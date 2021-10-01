@@ -3,7 +3,7 @@ import { useContext, useEffect } from 'react/cjs/react.development'
 import AppContext from '../helpers/AppCtx'
 
 function SizeSetter() {
-    const appCtx = useContext(AppContext)
+    const appCtx = useContext(AppContext);
     const size = appCtx.radioSize
 
     const setChartSize = (e) => {

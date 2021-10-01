@@ -5,8 +5,8 @@ import ClickContext from '../helpers/ClickCtx'
 import ChartForm from './ChartForm'
 
 function Display(props) {
-    const appCtx = useContext(AppContext)
-    const clickCtx = useContext(ClickContext)
+    const appCtx = useContext(AppContext);
+    const clickCtx = useContext(ClickContext);
     // const [pkmnSwitch, setPkmnSwitch] = useState(false)
     // const [from, setFrom] = useState('')
     // const [to, setTo] = useState('')

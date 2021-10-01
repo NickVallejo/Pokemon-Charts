@@ -3,8 +3,8 @@ import { useContext, useRef } from 'react/cjs/react.development'
 import AppContext from '../helpers/AppCtx'
 
 function ChartLoader() {
-    const appCtx = useContext(AppContext)
-    const uploadRef = useRef()
+    const appCtx = useContext(AppContext);
+    const uploadRef = useRef();
 
     const chartUpload = () => {
         if(uploadRef.current.files.length <= 0){

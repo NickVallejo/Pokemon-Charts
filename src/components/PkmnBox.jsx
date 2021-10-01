@@ -6,8 +6,8 @@ import pokeball from '../assets/pokeball.png'
 
 function PkmnBox(props) {
     const {myPkmn, id} = props
-    const appCtx = useContext(AppContext)
-    const clickCtx = useContext(ClickContext)
+    const appCtx = useContext(AppContext);
+    const clickCtx = useContext(ClickContext);
 
     const addToChart = useCallback((index) => {
         //Shifting algorithm

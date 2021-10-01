@@ -3,9 +3,9 @@ import ClickContext from '../helpers/ClickCtx'
 import PkmnHover from './PkmnHover'
 
 function PkmnRes(props) {
-    const clickCtx = useContext(ClickContext)
-    const [pkmnMeta, setPkmnMeta] = useState(props.meta)
-    const [imClicked, setImClicked] = useState(false)
+    const clickCtx = useContext(ClickContext);
+    const [pkmnMeta, setPkmnMeta] = useState(props.meta);
+    const [imClicked, setImClicked] = useState(false);
     // console.log(pkmnMeta, 'PKMNRES META')
 
     useEffect(() => {

@@ -4,7 +4,7 @@ import FilterBoxes from './FilterBoxes'
 import SlideContext from '../helpers/SlideCtx'
 
 function FilterSidebar({filter, filterChange, setFilter}) {
-    const slideCtx = useContext(SlideContext)
+    const slideCtx = useContext(SlideContext);
     
     const changeFilter = (checked, name, filterType) => {
         if(checked === false){

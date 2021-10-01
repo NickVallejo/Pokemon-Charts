@@ -3,7 +3,7 @@ import AppContext from '../helpers/AppCtx'
 import SizeSetter from './SizeSetter'
 
 function ChartForm(props) {
-    const appCtx = useContext(AppContext)
+    const appCtx = useContext(AppContext);
     const nameSaveInput = useRef()
 
     const setSaveName = (e) => {

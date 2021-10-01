@@ -4,8 +4,8 @@ import SlideBtn from './SlideBtn'
 
 function SlideBtns() {
 
-    const slideCtx = useContext(SlideContext)
-    const passUpSlide = (name) => slideCtx.openSlideHandler(name)
+    const slideCtx = useContext(SlideContext);
+    const passUpSlide = (name) => slideCtx.openSlideHandler(name);
     
 
     return (

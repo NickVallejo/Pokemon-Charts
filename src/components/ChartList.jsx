@@ -5,8 +5,8 @@ import ChartListItem from './ChartListItem'
 import ChartLoader from './ChartLoader'
 
 function ChartList() {
-    const appCtx = useContext(AppContext)
-    const slideCtx = useContext(SlideContext)
+    const appCtx = useContext(AppContext);
+    const slideCtx = useContext(SlideContext);
 
     const selectListItem = (index) => {
         appCtx.selectListItem(index)
