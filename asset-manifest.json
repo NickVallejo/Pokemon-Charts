@@ -1,0 +1,21 @@
+{
+  "files": {
+    "main.css": "/Pokemon-Charts/static/css/main.b6c10c2f.chunk.css",
+    "main.js": "/Pokemon-Charts/static/js/main.e19bd1d5.chunk.js",
+    "main.js.map": "/Pokemon-Charts/static/js/main.e19bd1d5.chunk.js.map",
+    "runtime-main.js": "/Pokemon-Charts/static/js/runtime-main.61be20e3.js",
+    "runtime-main.js.map": "/Pokemon-Charts/static/js/runtime-main.61be20e3.js.map",
+    "static/js/2.e3d80ed9.chunk.js": "/Pokemon-Charts/static/js/2.e3d80ed9.chunk.js",
+    "static/js/2.e3d80ed9.chunk.js.map": "/Pokemon-Charts/static/js/2.e3d80ed9.chunk.js.map",
+    "index.html": "/Pokemon-Charts/index.html",
+    "static/css/main.b6c10c2f.chunk.css.map": "/Pokemon-Charts/static/css/main.b6c10c2f.chunk.css.map",
+    "static/js/2.e3d80ed9.chunk.js.LICENSE.txt": "/Pokemon-Charts/static/js/2.e3d80ed9.chunk.js.LICENSE.txt",
+    "static/media/pokeball.a835fb9b.png": "/Pokemon-Charts/static/media/pokeball.a835fb9b.png"
+  },
+  "entrypoints": [
+    "static/js/runtime-main.61be20e3.js",
+    "static/js/2.e3d80ed9.chunk.js",
+    "static/css/main.b6c10c2f.chunk.css",
+    "static/js/main.e19bd1d5.chunk.js"
+  ]
+}
