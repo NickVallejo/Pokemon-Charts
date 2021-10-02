@@ -1,5 +1,5 @@
 import React from 'react'
-import { useContext, useEffect } from 'react/cjs/react.development'
+import { useContext } from 'react'
 import AppContext from '../helpers/AppCtx'
 
 function SizeSetter() {
