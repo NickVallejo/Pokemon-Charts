@@ -16,10 +16,13 @@ body {
   box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.2);
   position: relative;
   z-index: 2;
+  min-width: 1900px;
+  width: 100%;
 }
 
 #pc-header .pc-header-wrap {
   max-width: 1800px;
+  min-width: 350px;
   width: 100%;
   margin: 0 auto;
   display: -webkit-box;
@@ -28,6 +31,7 @@ body {
   -webkit-box-pack: justify;
       -ms-flex-pack: justify;
           justify-content: space-between;
+  padding: 0px 3%;
 }
 
 #pc-header .pc-header-wrap .logo-wrap {
@@ -70,6 +74,7 @@ body {
   -webkit-box-direction: normal;
       -ms-flex-flow: column;
           flex-flow: column;
+  padding: 0px 100px;
 }
 
 .stat-bar {
@@ -158,12 +163,14 @@ body {
   -webkit-box-pack: justify;
       -ms-flex-pack: justify;
           justify-content: space-between;
-  padding: 10px;
+  padding: 20px;
 }
 
-.chart-display-info .chart-form {
-  width: 100%;
-  margin-bottom: 45px;
+.chart-display-info .chart-title {
+  font-size: 30px;
+  margin: 0px;
+  margin-right: 45px;
+  text-transform: uppercase;
 }
 
 .chart-display-info .chart-form .chart-save-input {
@@ -198,6 +205,18 @@ body {
   -webkit-box-align: center;
       -ms-flex-align: center;
           align-items: center;
+  width: 100%;
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
+}
+
+.chart-display-info .display-right .size-setter {
+  text-align: right;
+  margin-right: 40px;
+  -webkit-box-flex: 1;
+      -ms-flex: 1;
+          flex: 1;
 }
 
 .slide-btn-wrap {
@@ -306,11 +325,10 @@ body {
   display: flex;
   -ms-flex-wrap: wrap;
       flex-wrap: wrap;
-  height: 100%;
   overflow-y: scroll;
   z-index: 1;
   position: relative;
-  direction: rtl;
+  direction: ltr;
   border-radius: 10px;
   margin-top: 0px;
 }

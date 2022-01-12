@@ -11,7 +11,7 @@ function SizeSetter() {
     }
 
     return (
-        <div>
+        <div className="size-setter">
             <label htmlFor="top-10">Top 10</label>
             <input onChange={setChartSize} type="radio" name="size" id="top-10" value='10' checked={size == 10}/>
             <label htmlFor="top-20">Top 20</label>
