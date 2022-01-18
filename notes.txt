@@ -1,5 +1,0 @@
-1. Filter will not call again after a search. This is because the filter is the same as the last call.
-2. Don't call the resultData() func when the filter changes, call it when the button is pressed
-3. currently, the button being pressed is what triggers the setFilter(), by passing in mockFilter
-4. throw away mockfilter and just update the fitler as things are being added and removed
-5. Make the button press call resultData(), don't make the filter being set call resultData() 
