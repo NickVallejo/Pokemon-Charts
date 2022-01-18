@@ -1,5 +1,5 @@
 import React from 'react'
-import { useContext, useRef } from 'react'
+import { useContext, useRef, useContext } from 'react'
 import AppContext from '../helpers/AppCtx'
 
 function ChartLoader() {
