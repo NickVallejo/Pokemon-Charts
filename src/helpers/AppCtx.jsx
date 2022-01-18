@@ -1,4 +1,4 @@
-import React, {useState, useEffect, useCallback} from 'react';
+import React, {useState, useEffect} from 'react';
 import Chart from '../classes/ChartClass';
 
 const AppContext = React.createContext()

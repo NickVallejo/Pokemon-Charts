@@ -14,7 +14,6 @@ export const ClickContextProvider = props => {
     })
 
     const selectOff = useCallback((e) => {
-        console.log('SELECT OOOOOOOOOOOOOOFF', e.target)
         if(e.target.closest('.search-wrap') !== null 
         || e.target.closest('.pkmn-box') && !selectedPkmn
         || e.target.closest('.pkmn-display')){
