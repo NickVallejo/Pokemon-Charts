@@ -1,6 +1,6 @@
 import React from 'react'
 import { useContext } from 'react'
-import AppContext from 'https://nickvallejo.github.io/Pokemon-Charts/helpers/AppCtx'
+import AppContext from '../helpers/AppCtx'
 
 function SizeSetter() {
     const appCtx = useContext(AppContext);
